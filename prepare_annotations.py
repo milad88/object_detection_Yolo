@@ -7,6 +7,7 @@ from config import class_name_to_id_mapping
 
 def convert_to_yolov5_from_df(df: pd.DataFrame, filename: str):
     print_buffer = []
+    target_file_name = filename[:-3] + "txt"
 
     # For each bounding box
     for i, row in df.iterrows():  # for b in info_dict["bboxes"]:
@@ -35,7 +36,7 @@ def convert_to_yolov5_from_df(df: pd.DataFrame, filename: str):
             "{} {:.3f} {:.3f} {:.3f} {:.3f}".format(class_id, b_center_x, b_center_y, b_width, b_height))
 
     # Name of the file which we have to save
-    save_file_name = os.path.join("data", "annotations", filename.replace("jpg", "txt"))
+    save_file_name = os.path.join("data", "labels", target_file_name)
 
     # Save the annotation to disk
     print("\n".join(print_buffer), file=open(save_file_name, "w"))

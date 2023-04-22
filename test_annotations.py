@@ -42,7 +42,7 @@ def plot_bounding_box(image, annotation_list):
     plt.show()
 
 
-annotations = [os.path.join('data', 'annotations', x) for x in os.listdir('data/annotations') if x[-3:] == "txt"]
+annotations = [os.path.join('data', 'labels', x) for x in os.listdir('data/labels') if x[-3:] == "txt"]
 annotation_file = random.choice(annotations)
 
 with open(annotation_file, "r") as file:
@@ -51,7 +51,7 @@ with open(annotation_file, "r") as file:
     annotation_list = [[float(y) for y in x] for x in annotation_list]
 
 # Get the corresponding image file
-image_file = annotation_file.replace("annotations", "images").replace("txt", "jpg")
+image_file = annotation_file.replace("labels", "images").replace("txt", "jpg")
 assert os.path.exists(image_file)
 
 # Load the image
