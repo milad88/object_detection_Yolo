@@ -12,11 +12,6 @@ from utils.general import (LOGGER, cv2, xyxy2xywh)
 from utils.general import (Profile, non_max_suppression)
 from utils.plots import Annotator, colors, save_one_box
 
-view_img = True
-save_crop = True
-save_txt = True
-save_img = True
-save_conf = True
 
 conf_thres = .250  # confidence threshold
 iou_thres = 0.45  # NMS IOU threshold
@@ -47,7 +42,7 @@ def inference_single_image(weights_path, im, view_img=True,
     org_im = im
     im = np.moveaxis(np.array(im), 2, 0)
     im = np.array([im])
-    weights = torch.load(weights_path, weights_only=False)
+    # weights = torch.load(weights_path, weights_only=False)
 
     model = DetectMultiBackend(weights_path)
     stride, names, pt = model.stride, model.names, model.pt
@@ -141,4 +136,4 @@ if __name__ == '__main__':
 
     print(im.shape)
     weights_path = 'exp38/weights/best.pt'
-    inference_single_image(weights_path,im)
+    inference_single_image(weights_path, im)
