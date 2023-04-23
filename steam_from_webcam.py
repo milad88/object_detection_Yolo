@@ -27,12 +27,11 @@ dnn = False  # use OpenCV DNN for ONNX inference
 vid_stride = 1
 
 
-def detect_frame(model, im):
+def detect_frame(model, im, names):
     org_im = im
 
     im = np.moveaxis(np.array(im), 2, 0)
     im = np.array([im])
-    stride, names, pt = model.stride, model.names, model.pt
 
     seen, windows, dt = 0, [], (Profile(), Profile(), Profile())
     im = torch.from_numpy(im).to(model.device)
@@ -69,7 +68,7 @@ def detect_frame(model, im):
 weights_path = 'exp38/weights/best.pt'
 model = DetectMultiBackend(weights_path)
 cap = cv2.VideoCapture(0)
-
+names = model.names
 # Check if the webcam is opened correctly
 if not cap.isOpened():
     raise IOError("Cannot open webcam")
@@ -81,11 +80,11 @@ while True:
     ret, frame = cap.read()
     frame = cv2.resize(frame, dim, interpolation=cv2.INTER_AREA)
 
-    frame = detect_frame(model, frame)
+    frame = detect_frame(model, frame, names)
 
     cv2.imshow('Input', frame)
 
-    c = cv2.waitKey(0)
+    c = cv2.waitKey(1)
     if c == 27:
         break
 
